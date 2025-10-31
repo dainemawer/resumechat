@@ -1,13 +1,13 @@
-import { describe, it, expect } from 'vitest';
-import {
-	hasProSubscription,
-	canUploadResume,
-	canChat,
-	canAccessEmbed,
-	shouldShowBranding,
-	getRemainingChats,
-} from '../check-subscription';
+import { describe, expect, it } from 'vitest';
 import type { User } from '@/lib/supabase/types';
+import {
+	canAccessEmbed,
+	canChat,
+	canUploadResume,
+	getRemainingChats,
+	hasProSubscription,
+	shouldShowBranding,
+} from '../check-subscription';
 
 // Test data factory
 const createMockUser = (overrides: Partial<User> = {}): User => ({
