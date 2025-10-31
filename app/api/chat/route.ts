@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 		const context = buildContext(searchResults);
 
 		// Build system prompt with context
-		const systemPrompt = `You are an AI assistant helping recruiters learn about a job candidate through their resume. 
+		const systemPrompt = `You are an AI assistant helping recruiters learn about a job candidate through their resume.
 
 Here is the candidate's summary:
 ${resume.summary}
