@@ -2,6 +2,7 @@ import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 import { buildContext, vectorSearch } from '@/lib/search/vector-search';
 import { createServerClient } from '@/lib/supabase/server';
+import type { User } from '@/lib/supabase/types';
 
 // Allow streaming responses up to 60 seconds
 export const maxDuration = 60;
@@ -38,7 +39,8 @@ export async function POST(req: Request) {
 		}
 
 		// Check chat limits for resume owner
-		const owner = resume.users;
+		// Supabase inner join returns array type, but .single() ensures single object
+		const owner = resume.users as unknown as User;
 		const { count: chatCount } = await supabase
 			.from('chats')
 			.select('*', { count: 'exact', head: true })
@@ -88,11 +90,10 @@ Guidelines:
 				...messages.filter((msg: { role: string }) => msg.role !== 'system'),
 			],
 			temperature: 0.7,
-			maxTokens: 500,
 		});
 
 		// Return streaming response
-		return result.toDataStreamResponse();
+		return result.toTextStreamResponse();
 	} catch (error) {
 		console.error('Error in chat API:', error);
 		return new Response('Internal server error', { status: 500 });
