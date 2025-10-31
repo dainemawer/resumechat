@@ -1,12 +1,14 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { parsePDF } from '@/lib/parsers/pdf-parser';
+import { canUploadResume } from '@/lib/auth/check-subscription';
+import { chunkText } from '@/lib/embeddings/chunk-text';
+import { generateEmbeddingsBatch } from '@/lib/embeddings/generate-embeddings';
 import { parseDOCX } from '@/lib/parsers/docx-parser';
+import { parsePDF } from '@/lib/parsers/pdf-parser';
 import { structureResumeData } from '@/lib/openai/structure-resume';
+import { createServerClient } from '@/lib/supabase/server';
 import { generateSlug } from '@/lib/utils/slug';
 import { validateResumeFile } from '@/lib/validations/file';
-import { canUploadResume } from '@/lib/auth/check-subscription';
-import { createServerClient } from '@/lib/supabase/server';
 
 export async function POST(req: Request) {
 	try {
@@ -122,6 +124,25 @@ export async function POST(req: Request) {
 		if (insertError || !resume) {
 			console.error('Error inserting resume:', insertError);
 			return NextResponse.json({ error: 'Failed to save resume' }, { status: 500 });
+		}
+
+		// Generate and store embeddings
+		try {
+			const chunks = chunkText(rawText);
+			const embeddings = await generateEmbeddingsBatch(chunks);
+
+			const embeddingsToInsert = chunks.map((chunk, index) => ({
+				resume_id: resume.id,
+				chunk_text: chunk,
+				chunk_index: index,
+				embedding: embeddings[index],
+			}));
+
+			await supabase.from('embeddings').insert(embeddingsToInsert);
+		} catch (error) {
+			// Log error but don't fail the upload
+			// Embeddings can be regenerated later
+			console.error('Error generating embeddings:', error);
 		}
 
 		// Return success response
