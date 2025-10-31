@@ -46,8 +46,8 @@ ResumeChat is committed to WCAG 2.1 Level AA compliance to ensure our platform i
 
 // Form inputs
 <label htmlFor="email">Email Address</label>
-<input 
-	id="email" 
+<input
+	id="email"
 	type="email"
 	aria-required="true"
 	aria-invalid={hasError}
@@ -142,11 +142,11 @@ Tools:
 <form>
 	<fieldset>
 		<legend>Upload Resume</legend>
-		
+
 		<label htmlFor="resume-file">
 			Choose file (PDF or DOCX, max 5MB)
 		</label>
-		
+
 		<input
 			id="resume-file"
 			type="file"
@@ -154,17 +154,17 @@ Tools:
 			aria-describedby="file-hint"
 			required
 		/>
-		
+
 		<p id="file-hint" className="text-muted">
 			Supported formats: PDF, DOCX
 		</p>
-		
+
 		{error && (
 			<p role="alert" className="text-destructive">
 				{error}
 			</p>
 		)}
-		
+
 		<button type="submit">
 			Upload
 		</button>
@@ -178,7 +178,7 @@ Tools:
 
 ```tsx
 <Dialog open={isOpen} onOpenChange={setIsOpen}>
-	<DialogContent 
+	<DialogContent
 		aria-labelledby="dialog-title"
 		aria-describedby="dialog-description"
 	>
@@ -297,8 +297,8 @@ Install from nvaccess.org
 <div className="modal">Content</div>
 
 // ✅ Good
-<div 
-	role="dialog" 
+<div
+	role="dialog"
 	aria-modal="true"
 	aria-labelledby="modal-title"
 >

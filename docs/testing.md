@@ -70,10 +70,10 @@ describe('Button', () => {
 	it('should call onClick when clicked', async () => {
 		const handleClick = vi.fn();
 		const user = userEvent.setup();
-		
+
 		render(<Button onClick={handleClick}>Click me</Button>);
 		await user.click(screen.getByRole('button'));
-		
+
 		expect(handleClick).toHaveBeenCalledOnce();
 	});
 
@@ -103,7 +103,7 @@ describe('Resume Upload API', () => {
 	it('should upload and process PDF file', async () => {
 		const formData = new FormData();
 		formData.append('file', new File(['test'], 'resume.pdf', { type: 'application/pdf' }));
-		
+
 		const request = new Request('http://localhost:3000/api/resumes/upload', {
 			method: 'POST',
 			body: formData,
@@ -120,7 +120,7 @@ describe('Resume Upload API', () => {
 	it('should reject invalid file types', async () => {
 		const formData = new FormData();
 		formData.append('file', new File(['test'], 'resume.txt', { type: 'text/plain' }));
-		
+
 		const request = new Request('http://localhost:3000/api/resumes/upload', {
 			method: 'POST',
 			body: formData,
@@ -270,17 +270,17 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
+
       - run: npm ci
       - run: npm test
       - run: npm run test:coverage
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
 ```

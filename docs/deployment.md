@@ -14,10 +14,10 @@
    ```bash
    # Install Vercel CLI (optional)
    npm i -g vercel
-   
+
    # Login
    vercel login
-   
+
    # Link project
    vercel link
    ```
@@ -29,9 +29,9 @@
    - Install Command: `npm install`
 
 3. **Environment Variables**
-   
+
    Add all variables from `.env.local.example` in Vercel dashboard:
-   
+
    - Go to Project Settings → Environment Variables
    - Add each variable for Production, Preview, and Development
    - Use different keys for production (e.g., production Stripe keys)
@@ -107,7 +107,7 @@ NEXT_PUBLIC_APP_URL=https://resumechat.ai
      -d postgres \
      --schema-only \
      -f schema.sql
-   
+
    # Dump data (if needed)
    pg_dump -h db.xxx.supabase.co \
      -U postgres \
@@ -214,11 +214,11 @@ export const logger = pino({
 // next.config.ts
 const nextConfig = {
   // ... existing config
-  
+
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  
+
   experimental: {
     optimizePackageImports: ['@radix-ui/react-icons'],
   },

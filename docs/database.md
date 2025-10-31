@@ -67,7 +67,7 @@ CREATE TABLE embeddings (
 -- Indexes
 CREATE INDEX idx_embeddings_resume_id ON embeddings(resume_id);
 -- Vector index for similarity search (ivfflat for performance)
-CREATE INDEX idx_embeddings_vector ON embeddings 
+CREATE INDEX idx_embeddings_vector ON embeddings
 USING ivfflat (embedding vector_cosine_ops)
 WITH (lists = 100);
 ```
@@ -170,7 +170,7 @@ CREATE POLICY "Users can read own embeddings"
 ON embeddings FOR SELECT
 USING (
 	resume_id IN (
-		SELECT id FROM resumes 
+		SELECT id FROM resumes
 		WHERE user_id = (SELECT id FROM users WHERE clerk_id = auth.uid())
 	)
 );
@@ -197,7 +197,7 @@ CREATE POLICY "Users can read own chats"
 ON chats FOR SELECT
 USING (
 	resume_id IN (
-		SELECT id FROM resumes 
+		SELECT id FROM resumes
 		WHERE user_id = (SELECT id FROM users WHERE clerk_id = auth.uid())
 	)
 );

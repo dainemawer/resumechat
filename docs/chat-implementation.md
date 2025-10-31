@@ -382,7 +382,7 @@ export async function checkChatLimits(user: User) {
 
 	// Check if user has exceeded free tier limits
 	const limit = 50; // 50 chats per month for free tier
-	
+
 	if (user.chat_count >= limit) {
 		throw new Error('Chat limit exceeded. Please upgrade to Pro for unlimited chats.');
 	}
@@ -390,7 +390,7 @@ export async function checkChatLimits(user: User) {
 
 export async function incrementChatCount(userId: string) {
 	const supabase = createServerClient();
-	
+
 	await supabase.rpc('increment_chat_count', {
 		user_id: userId,
 	});

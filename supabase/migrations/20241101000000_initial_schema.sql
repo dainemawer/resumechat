@@ -72,7 +72,7 @@ CREATE INDEX IF NOT EXISTS idx_resumes_created_at ON resumes(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_embeddings_resume_id ON embeddings(resume_id);
 -- Vector index for similarity search (ivfflat for performance)
 -- Note: This requires some data in the table first, uncomment after first embeddings are inserted
--- CREATE INDEX IF NOT EXISTS idx_embeddings_vector ON embeddings 
+-- CREATE INDEX IF NOT EXISTS idx_embeddings_vector ON embeddings
 -- USING ivfflat (embedding vector_cosine_ops)
 -- WITH (lists = 100);
 
@@ -143,7 +143,7 @@ CREATE POLICY "Users can read own chats"
 ON chats FOR SELECT
 USING (
 	resume_id IN (
-		SELECT id FROM resumes 
+		SELECT id FROM resumes
 		WHERE user_id IN (
 			SELECT id FROM users WHERE clerk_id = auth.jwt() ->> 'sub'
 		)
@@ -201,8 +201,8 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	UPDATE users 
-	SET chat_count = chat_count + 1 
+	UPDATE users
+	SET chat_count = chat_count + 1
 	WHERE id = p_user_id;
 END;
 $$;
@@ -213,8 +213,8 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
-	UPDATE users 
-	SET chat_count = 0 
+	UPDATE users
+	SET chat_count = 0
 	WHERE subscription_tier = 'free';
 END;
 $$;

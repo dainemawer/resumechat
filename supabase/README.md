@@ -31,7 +31,7 @@ This directory contains the database schema and migrations for ResumeChat.
 After adding your first resume with embeddings:
 
 ```sql
-CREATE INDEX idx_embeddings_vector ON embeddings 
+CREATE INDEX idx_embeddings_vector ON embeddings
 USING ivfflat (embedding vector_cosine_ops)
 WITH (lists = 100);
 ```
@@ -126,7 +126,7 @@ Monitor slow queries:
 Check database size:
 
 ```sql
-SELECT 
+SELECT
 	schemaname,
 	tablename,
 	pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
